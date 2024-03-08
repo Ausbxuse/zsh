@@ -1,3 +1,10 @@
+# # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.config/zsh/.zshrc.
+# # Initialization code that may require console input (password prompts, [y/n]
+# # confirmations, etc.) must go above this block; everything else may go below.
+# if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+#   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+# fi
+
 # Autoload zsh add-zsh-hook and vcs_info functions (-U autoload w/o substition, -z use zsh style)
 autoload -Uz add-zsh-hook vcs_info
 # Enable substitution in the prompt.
@@ -7,7 +14,7 @@ add-zsh-hook precmd vcs_info
 # add ${vcs_info_msg_0} to the prompt
 # e.g. here we add the Git information in red  
 # PROMPT='%1~ %F{red}${vcs_info_msg_0_}%f %# '
-
+#󰚜󰚛
 # Enable checking for (un)staged changes, enabling use of %u and %c
 zstyle ':vcs_info:*' check-for-changes true
 # Set custom strings for an unstaged vcs repo changes (*) and staged changes (+)
@@ -22,7 +29,7 @@ zstyle ':vcs_info:git:*' actionformats '(%b|%a%u%c)'
 # Enable colors and change prompt:
 autoload -U colors && colors	# Load colors
 setopt autocd		# Automatically cd into typed directory.
-stty stop undef		# Disable ctrl-s to freeze terminal.
+# stty stop undef		# Disable ctrl-s to freeze terminal.
 setopt interactive_comments
 #setopt menu_complete # for better auto complete
 case $TERM in
@@ -49,7 +56,7 @@ zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 
 zmodload zsh/complist
 compinit
 _comp_options+=(globdots)		# Include hidden files.
-
+#⌾
 # vi mode
 #bindkey -v
 #bindkey -r "^["
@@ -93,13 +100,12 @@ lfcd () {
         [ -d "$dir" ] && [ "$dir" != "$(pwd)" ] && cd "$dir"
     fi
 }
-# bindkey -s '^o' 'ra\n'
 
 bindkey -s '^a' 'R -q\n'
 
 bindkey -s '^g' 'cd "$(dirname "$(fzf)")" && ls \n'
 
-bindkey -s '^f' 'file=$(fzf) && [ $file ] && vim $file\n'
+# bindkey -s '^f' 'file=$(fzf) && [ $file ] && vim $file\n'
 
 bindkey '^[[P' delete-char
 
@@ -113,18 +119,10 @@ export LESSOPEN='| lessfilter-fzf %s'
 export MANPAGER='nvim +Man!'
 # export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
-# Load syntax highlighting; should be last.
-source /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh 2>/dev/null
-source ${XDG_CONFIG_HOME:-$HOME/.config}/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh 2>/dev/null
-source ${XDG_CONFIG_HOME:-$HOME/.config}/zsh/plugins/zsh-system-clipboard/zsh-system-clipboard.zsh 2>/dev/null
+# source ${XDG_CONFIG_HOME:-$HOME/.config}/zsh/plugins/zsh-system-clipboard/zsh-system-clipboard.zsh 2>/dev/null
 
 # source /usr/share/fzf/key-bindings.zsh 2>/dev/null
 # source /usr/share/fzf/completion.zsh 2>/dev/null
-
-source ${XDG_CONFIG_HOME:-$HOME/.config}/zsh/plugins/zsh-history-substring-search.zsh 2>/dev/null
-bindkey '^[[A' history-substring-search-up
-bindkey '^[[B' history-substring-search-down
-export HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=true
 
 # export FZF_DEFAULT_OPTS="--layout=reverse --height 20%"
 # export FZF_DEFAULT_COMMAND="fd -a -H -E '*\.git' -E '*\.gitignore' -t f . ."
@@ -176,8 +174,21 @@ source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
-zinit load unixorn/fzf-zsh-plugin
+zinit ice depth=1;
+zinit light unixorn/fzf-zsh-plugin
 zinit light Aloxaf/fzf-tab
+zinit light zdharma-continuum/fast-syntax-highlighting
+zinit light zsh-users/zsh-autosuggestions
+zinit light zsh-users/zsh-history-substring-search
+# zinit ice wait atload'_history_substring_search_config'
+# zinit light jeffreytse/zsh-vi-mode
+zinit load kutsan/zsh-system-clipboard
+zinit light romkatv/powerlevel10k
+
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+export HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=true
+
 # it is an example. you can change it
 zstyle ':fzf-tab:complete:git-(add|diff|restore):*' fzf-preview \
 	'git diff $word | delta'
@@ -232,122 +243,7 @@ zstyle ':fzf-tab:*' continuous-trigger '/'
 # zstyle ':fzf-tab:*' popup-min-size 50 8
 # only apply to 'diff'
 # zstyle ':fzf-tab:complete:diff:*' popup-min-size 80 12
-# =============================================================================
-#
-# Utility functions for zoxide.
-#
+eval "$(zoxide init zsh)"
 
-# pwd based on the value of _ZO_RESOLVE_SYMLINKS.
-function __zoxide_pwd() {
-    \builtin pwd -L
-}
-
-# cd + custom logic based on the value of _ZO_ECHO.
-function __zoxide_cd() {
-    # shellcheck disable=SC2164
-    \builtin cd -- "$@"
-}
-
-# =============================================================================
-#
-# Hook configuration for zoxide.
-#
-
-# Hook to add new entries to the database.
-function __zoxide_hook() {
-    # shellcheck disable=SC2312
-    \command zoxide add -- "$(__zoxide_pwd)"
-}
-
-# Initialize hook.
-# shellcheck disable=SC2154
-if [[ ${precmd_functions[(Ie)__zoxide_hook]:-} -eq 0 ]] && [[ ${chpwd_functions[(Ie)__zoxide_hook]:-} -eq 0 ]]; then
-    chpwd_functions+=(__zoxide_hook)
-fi
-
-# =============================================================================
-#
-# When using zoxide with --no-cmd, alias these internal functions as desired.
-#
-
-# Jump to a directory using only keywords.
-function __zoxide_z() {
-    # shellcheck disable=SC2199
-    if [[ "$#" -eq 0 ]]; then
-        __zoxide_cd ~
-    elif [[ "$#" -eq 1 ]] && { [[ -d "$1" ]] || [[ "$1" = '-' ]] || [[ "$1" =~ ^[-+][0-9]$ ]]; }; then
-        __zoxide_cd "$1"
-    else
-        \builtin local result
-        # shellcheck disable=SC2312
-        result="$(\command zoxide query --exclude "$(__zoxide_pwd)" -- "$@")" && __zoxide_cd "${result}"
-    fi
-}
-
-# Jump to a directory using interactive search.
-function __zoxide_zi() {
-    \builtin local result
-    result="$(\command zoxide query --interactive -- "$@")" && __zoxide_cd "${result}"
-}
-
-# =============================================================================
-#
-# Commands for zoxide. Disable these using --no-cmd.
-#
-
-function z() {
-    __zoxide_z "$@"
-}
-
-function zz() {
-    __zoxide_zi "$@"
-}
-
-# Completions.
-if [[ -o zle ]]; then
-    __zoxide_result=''
-
-    function __zoxide_z_complete() {
-        # Only show completions when the cursor is at the end of the line.
-        # shellcheck disable=SC2154
-        [[ "${#words[@]}" -eq "${CURRENT}" ]] || return 0
-
-        if [[ "${#words[@]}" -eq 2 ]]; then
-            # Show completions for local directories.
-            _files -/
-        elif [[ "${words[-1]}" == '' ]]; then
-            # Show completions for Space-Tab.
-            # shellcheck disable=SC2086
-            __zoxide_result="$(\command zoxide query --exclude "$(__zoxide_pwd || \builtin true)" --interactive -- ${words[2,-1]})" || __zoxide_result=''
-
-            # Bind '\e[0n' to helper function.
-            \builtin bindkey '\e[0n' '__zoxide_z_complete_helper'
-            # Send '\e[0n' to console input.
-            \builtin printf '\e[5n'
-        fi
-
-        # Report that the completion was successful, so that we don't fall back
-        # to another completion function.
-        return 0
-    }
-
-    function __zoxide_z_complete_helper() {
-        if [[ -n "${__zoxide_result}" ]]; then
-            # shellcheck disable=SC2034,SC2296
-            BUFFER="z ${(q-)__zoxide_result}"
-            \builtin zle reset-prompt
-            \builtin zle accept-line
-        else
-            \builtin zle reset-prompt
-        fi
-    }
-    \builtin zle -N __zoxide_z_complete_helper
-
-    [[ "${+functions[compdef]}" -ne 0 ]] && \compdef __zoxide_z_complete z
-fi
-
-# =============================================================================
-#
-# To initialize zoxide, add this to your configuration (usually ~/.zshrc):
-#
-# eval "$(zoxide init zsh)"
+# To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
+[[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
