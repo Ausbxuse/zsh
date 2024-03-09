@@ -243,6 +243,7 @@ zstyle ':fzf-tab:*' continuous-trigger '/'
 # zstyle ':fzf-tab:*' popup-min-size 50 8
 # only apply to 'diff'
 # zstyle ':fzf-tab:complete:diff:*' popup-min-size 80 12
+unalias zi
 eval "$(zoxide init zsh)"
 
 # To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
