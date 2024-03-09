@@ -26,6 +26,7 @@ zstyle ':vcs_info:git:*' actionformats '(%b|%a%u%c)'
 
 
 
+
 # Enable colors and change prompt:
 autoload -U colors && colors	# Load colors
 setopt autocd		# Automatically cd into typed directory.
