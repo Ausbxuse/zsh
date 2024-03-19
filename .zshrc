@@ -143,7 +143,7 @@ fi
 num_dirs=0 # Use 0 for full path
 NEWLINE=$'\n'
 #truncated_path="%F{8}%K{8}%F{4} %K{0} %F{white}%$num_dirs~%{%k%}%F{0}%f%F{13}❯%F{5}❯%F{14}❯%{%k%}%F{white}"
-truncated_path=" %F{4}%$num_dirs~ %{%k%}%f%F{5}❯%{%k%}%F{white}"
+truncated_path="%F{4}%$num_dirs~$NEWLINE%{%k%}%f%F{5}❯%{%k%}%F{white}"
 background_jobs="%(1j.%F{0}%K{0}%F{3}%{%k%}%F{0}%f.)"
 non_zero_return_value="%(0?..%F{0}%K{0}%F{1}%{%k%}%F{0}%f)"
 
@@ -184,7 +184,7 @@ zinit light zsh-users/zsh-history-substring-search
 # zinit ice wait atload'_history_substring_search_config'
 # zinit light jeffreytse/zsh-vi-mode
 zinit load kutsan/zsh-system-clipboard
-zinit light romkatv/powerlevel10k
+# zinit light romkatv/powerlevel10k
 
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
@@ -248,7 +248,8 @@ unalias zi
 eval "$(zoxide init zsh)"
 
 # To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
-[[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
+# [[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
+
 if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
   exec tmux new-session -A -s main
 fi
