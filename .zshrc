@@ -104,7 +104,7 @@ lfcd () {
 
 bindkey -s '^a' 'R -q\n'
 
-bindkey -s '^g' 'cd "$(dirname "$(fzf)")" && ls \n'
+# bindkey -s '^g' 'cd "$(dirname "$(fzf)")" && ls \n'
 
 # bindkey -s '^f' 'file=$(fzf) && [ $file ] && vim $file\n'
 
@@ -176,7 +176,7 @@ autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
 zinit ice depth=1;
-zinit light unixorn/fzf-zsh-plugin
+# zinit light unixorn/fzf-zsh-plugin
 zinit light Aloxaf/fzf-tab
 zinit light zdharma-continuum/fast-syntax-highlighting
 zinit light zsh-users/zsh-autosuggestions
@@ -253,3 +253,26 @@ eval "$(zoxide init zsh)"
 if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
   exec tmux new-session -A -s main
 fi
+eval "$(fzf --zsh)"
+
+fzf-file-widget() {
+  # LBUFFER="${LBUFFER}$(__fsel)"
+  FILE="$(__fsel)"
+  nvim $FILE
+  local ret=$?
+  zle reset-prompt
+  return $ret
+}
+
+bindkey -M emacs '^g' fzf-cd-widget
+bindkey -M vicmd '^g' fzf-cd-widget
+bindkey -M viins '^g' fzf-cd-widget
+
+bindkey -M emacs '^t' fzf-file-widget
+bindkey -M vicmd '^t' fzf-file-widget
+bindkey -M viins '^t' fzf-file-widget
+
+
+FZF_ALT_C_COMMAND='fd -H --max-depth 6 -t d'
+FZF_CTRL_T_COMMAND='fd -H --max-depth 4 -t f -t l'
+
