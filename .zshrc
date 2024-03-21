@@ -256,21 +256,25 @@ fi
 eval "$(fzf --zsh)"
 
 fzf-file-widget() {
-  # LBUFFER="${LBUFFER}$(__fsel)"
-  FILE="$(__fsel)"
-  nvim $FILE
-  local ret=$?
-  zle reset-prompt
-  return $ret
+  FILE="$(__fsel | sed 's/ $//')"
+  if [[ -n $FILE ]]; then
+    nvim $FILE
+    local ret=$?
+    zle reset-prompt
+    return $ret
+  else
+    zle reset-prompt
+    return 1
+  fi
 }
 
 bindkey -M emacs '^g' fzf-cd-widget
 bindkey -M vicmd '^g' fzf-cd-widget
 bindkey -M viins '^g' fzf-cd-widget
 
-bindkey -M emacs '^t' fzf-file-widget
-bindkey -M vicmd '^t' fzf-file-widget
-bindkey -M viins '^t' fzf-file-widget
+bindkey -M emacs '^f' fzf-file-widget
+bindkey -M vicmd '^f' fzf-file-widget
+bindkey -M viins '^f' fzf-file-widget
 
 
 FZF_ALT_C_COMMAND='fd -H --max-depth 6 -t d'
