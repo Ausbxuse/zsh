@@ -1,10 +1,3 @@
-# # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.config/zsh/.zshrc.
-# # Initialization code that may require console input (password prompts, [y/n]
-# # confirmations, etc.) must go above this block; everything else may go below.
-# if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-#   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-# fi
-
 # Autoload zsh add-zsh-hook and vcs_info functions (-U autoload w/o substition, -z use zsh style)
 autoload -Uz add-zsh-hook vcs_info
 # Enable substitution in the prompt.
@@ -23,8 +16,6 @@ zstyle ':vcs_info:*' stagedstr ' +'
 # Set the format of the Git information for vcs_info
 zstyle ':vcs_info:git:*' formats       '(%b%u%c)'
 zstyle ':vcs_info:git:*' actionformats '(%b|%a%u%c)'
-
-
 
 
 # Enable colors and change prompt:
@@ -50,7 +41,6 @@ HISTFILE=~/.cache/zsh/history
 
 # Basic auto/tab complete:
 autoload -U compinit
-#zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 #zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 #zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
@@ -104,10 +94,6 @@ lfcd () {
 
 bindkey -s '^a' 'R -q\n'
 
-# bindkey -s '^g' 'cd "$(dirname "$(fzf)")" && ls \n'
-
-# bindkey -s '^f' 'file=$(fzf) && [ $file ] && vim $file\n'
-
 bindkey '^[[P' delete-char
 
 # Edit line in vim with ctrl-e:
@@ -120,15 +106,6 @@ export LESSOPEN='| lessfilter-fzf %s'
 export MANPAGER='nvim +Man!'
 # export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
-# source ${XDG_CONFIG_HOME:-$HOME/.config}/zsh/plugins/zsh-system-clipboard/zsh-system-clipboard.zsh 2>/dev/null
-
-# source /usr/share/fzf/key-bindings.zsh 2>/dev/null
-# source /usr/share/fzf/completion.zsh 2>/dev/null
-
-# export FZF_DEFAULT_OPTS="--layout=reverse --height 20%"
-# export FZF_DEFAULT_COMMAND="fd -a -H -E '*\.git' -E '*\.gitignore' -t f . ."
-# export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-# export FZF_COMPLETION_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -400'"
 [ -f /opt/miniconda3/etc/profile.d/conda.sh ] && source /opt/miniconda3/etc/profile.d/conda.sh
 
 # shell
@@ -160,7 +137,6 @@ cl() {
   cd "$@" && ls;
 }
 
-
 ### Added by Zinit's installer
 if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
     print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
@@ -182,7 +158,7 @@ zinit light zsh-users/zsh-autosuggestions
 zinit light zsh-users/zsh-history-substring-search
 # zinit ice wait atload'_history_substring_search_config'
 # zinit light jeffreytse/zsh-vi-mode
-zinit load kutsan/zsh-system-clipboard
+zinit light kutsan/zsh-system-clipboard
 # zinit light romkatv/powerlevel10k
 
 bindkey '^[[A' history-substring-search-up
@@ -207,7 +183,6 @@ zstyle ':fzf-tab:complete:git-checkout:*' fzf-preview \
 	"recent commit object name") git show --color=always $word | delta ;;
 	*) git log --color=always $word ;;
 	esac'
-
 
 # give a preview of commandline arguments when completing `kill`
 # zstyle ':completion:*:*:*:*:processes' command "ps -u $USER -o pid,user,comm -w -w"
@@ -246,9 +221,6 @@ zstyle ':fzf-tab:*' continuous-trigger '/'
 unalias zi
 eval "$(zoxide init zsh)"
 
-# To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
-# [[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
-
 if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
   exec tmux new-session -A -s main
 fi
@@ -275,7 +247,5 @@ bindkey -M emacs '^f' fzf-file-widget
 bindkey -M vicmd '^f' fzf-file-widget
 bindkey -M viins '^f' fzf-file-widget
 
-
 FZF_ALT_C_COMMAND='fd -H --max-depth 6 -t d'
 FZF_CTRL_T_COMMAND='fd -H --max-depth 4 -t f -t l'
-
