@@ -128,7 +128,6 @@ export MANPAGER='nvim +Man!'
 # export FZF_DEFAULT_OPTS="--layout=reverse --height 20%"
 # export FZF_DEFAULT_COMMAND="fd -a -H -E '*\.git' -E '*\.gitignore' -t f . ."
 # export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-# export FZF_COMPLETION_TRIGGER='``'
 # export FZF_COMPLETION_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -400'"
 [ -f /opt/miniconda3/etc/profile.d/conda.sh ] && source /opt/miniconda3/etc/profile.d/conda.sh
 
