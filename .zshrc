@@ -128,7 +128,7 @@ non_zero_return_value="%(0?..%F{0}%K{0}%F{1}%{%k%}%F{0}%f)"
 PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}:${PWD}\007"'
 PROMPT='$truncated_path '
 # Right part of prompt
-RPROMPT='$background_jobs $non_zero_return_value %F{cyan}${vcs_info_msg_0_}%f'
+RPROMPT='$background_jobs $non_zero_return_value %F{cyan}${vcs_info_msg_0_}%f %F{10}[%D{%L:%M:%S}]'
 # Input in bold
 zle_highlight=(default:bold)
 
