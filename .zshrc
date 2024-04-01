@@ -14,8 +14,8 @@ zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:*' unstagedstr ' *'
 zstyle ':vcs_info:*' stagedstr ' +'
 # Set the format of the Git information for vcs_info
-zstyle ':vcs_info:git:*' formats       '(%b%u%c)'
-zstyle ':vcs_info:git:*' actionformats '(%b|%a%u%c)'
+zstyle ':vcs_info:git:*' formats       ' %b%u%c'
+zstyle ':vcs_info:git:*' actionformats '%b|%a%u%c'
 
 
 # Enable colors and change prompt:
@@ -128,7 +128,7 @@ non_zero_return_value="%(0?..%F{0}%K{0}%F{1}%{%k%}%F{0}%f)"
 PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}:${PWD}\007"'
 PROMPT='$truncated_path '
 # Right part of prompt
-RPROMPT='$background_jobs $non_zero_return_value %F{cyan}${vcs_info_msg_0_}%f %F{10}[%D{%L:%M:%S}]'
+RPROMPT='$background_jobs $non_zero_return_value %F{cyan}${vcs_info_msg_0_}%f %F{10}%D{%H:%M:%S %m-%d}'
 # Input in bold
 zle_highlight=(default:bold)
 
